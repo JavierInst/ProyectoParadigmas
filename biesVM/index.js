@@ -1,6 +1,6 @@
 const BiesVM = require('./src/biesVM');
 
-// Definimos un programa de prueba
+// Programa de prueba
 const program = [
   { type: 'LDV', value: 5 },    // Carga 5 en la pila
   { type: 'LDV', value: 10 },   // Carga 10 en la pila
@@ -9,7 +9,7 @@ const program = [
   { type: 'HLT' }               // Detiene la ejecución
 ];
 
-// Instanciamos y ejecutamos la VM
+//ejecución de lo anterior
 const vm = new BiesVM();
 vm.loadProgram(program);
 vm.run();

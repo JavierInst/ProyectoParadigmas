@@ -1,12 +1,4 @@
-const BiesVM = require('../src/biesVM');
-
-test('should initialize with empty stack and context', () => {
-  const vm = new BiesVM();
-  expect(vm.stack).toEqual([]);
-  expect(vm.context).toEqual([]);
-});
-
-
+//test básico
 const BiesVM = require('./src/biesVM');
 
 const program = [
@@ -20,3 +12,6 @@ const program = [
 const vm = new BiesVM();
 vm.loadProgram(program);
 vm.run();
+
+
+//

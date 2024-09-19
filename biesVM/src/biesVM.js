@@ -1,23 +1,19 @@
 class BiesVM {
   constructor() {
+    // Inicialización de la VM
     this.stack = [];  // Pila (S)
     this.code = [];   // Código a ejecutar (C)
     this.env = [];    // Entorno de bindings (B)
     this.context = []; // Pila de contextos (D)
-    this.currentInstruction = 0; // Para rastrear la instrucción actual
+    this.currentInstruction = 0; // Instrucción actual
   }
 
-  /**
-   * Cargar el programa biesASM en la VM.
-   * @param {Array} program - Arreglo de instrucciones en formato {type: "INSTRUCCION", ...}.
-   */
+  // Cargar el programa en la VM
   loadProgram(program) {
     this.code = program;
   }
 
-  /**
-   * Ejecuta el programa cargado en la VM.
-   */
+  // Ejecutar el programa
   run() {
     try {
       while (this.currentInstruction < this.code.length) {
@@ -30,37 +26,34 @@ class BiesVM {
     }
   }
 
-  /**
-   * Ejecuta una instrucción.
-   * @param {Object} instruction - Objeto que representa una instrucción {type: "INSTRUCCION", ...}.
-   */
+  // Ejecutar una instrucción
   executeInstruction(instruction) {
     switch (instruction.type) {
-      case 'LDV':  // Carga un valor en la pila
+      case 'LDV':  // Cargar valor en la pila
         this.stack.push(instruction.value);
         break;
-      case 'ADD':  // Suma dos valores de la pila
+      case 'ADD':  // Sumar valores
         this.binaryOperation((a, b) => a + b);
         break;
-      case 'SUB':  // Resta dos valores de la pila
+      case 'SUB':  // Restar valores
         this.binaryOperation((a, b) => b - a);
         break;
-      case 'MUL':  // Multiplica dos valores de la pila
+      case 'MUL':  // Multiplicar valores
         this.binaryOperation((a, b) => a * b);
         break;
-      case 'DIV':  // Divide dos valores de la pila
+      case 'DIV':  // Dividir valores
         this.binaryOperation((a, b) => b / a);
         break;
-      case 'PRN':  // Imprime el valor en la cima de la pila
+      case 'PRN':  // Imprimir valor
         console.log(this.stack.pop());
         break;
-      case 'HLT':  // Detiene la ejecución
+      case 'HLT':  // Detener ejecución
         this.halt();
         break;
-      case 'POP':  // Saca el valor de la pila
+      case 'POP':  // Sacar valor de la pila
         this.stack.pop();
         break;
-      case 'SWP':  // Intercambia los dos valores superiores de la pila
+      case 'SWP':  // Intercambiar valores
         this.swapTop();
         break;
       default:
@@ -68,25 +61,20 @@ class BiesVM {
     }
   }
 
-  /**
-   * Realiza una operación binaria en la pila.
-   * @param {Function} operation - Función que realiza la operación (ej. suma, resta).
-   */
+  // Operación binaria en la pila
   binaryOperation(operation) {
     if (this.stack.length < 2) {
-      throw new Error("No hay suficientes elementos en la pila para realizar la operación.");
+      throw new Error("No hay suficientes elementos en la pila.");
     }
     const a = this.stack.pop();
     const b = this.stack.pop();
     this.stack.push(operation(a, b));
   }
 
-  /**
-   * Intercambia los dos valores superiores de la pila.
-   */
+  // Intercambiar los dos valores superiores de la pila
   swapTop() {
     if (this.stack.length < 2) {
-      throw new Error("No hay suficientes elementos en la pila para intercambiar.");
+      throw new Error("No hay suficientes elementos para intercambiar.");
     }
     const top = this.stack.pop();
     const subTop = this.stack.pop();
@@ -94,12 +82,10 @@ class BiesVM {
     this.stack.push(subTop);
   }
 
-  /**
-   * Detiene la ejecución de la máquina virtual.
-   */
+  // Detener la ejecución
   halt() {
     console.log("Ejecución terminada.");
-    this.currentInstruction = this.code.length; // Forzar a salir del ciclo
+    this.currentInstruction = this.code.length; // Forzar salida
   }
 }
 
