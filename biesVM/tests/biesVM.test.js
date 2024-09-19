@@ -14,4 +14,23 @@ vm.loadProgram(program);
 vm.run();
 
 
-//
+//test de leer por consola
+const readline = require('readline');
+const BiesVM = require('./src/biesVM');
+const parseToInstructions = require('./src/parser');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+// Pregunta al usuario por el código a ejecutar
+rl.question('Introduce un código (ejemplo: 5 + 10): ', (input) => {
+  const instructions = parseToInstructions(input); // Traduce el input a instrucciones
+
+  const vm = new BiesVM();
+  vm.loadProgram(instructions); // Carga las instrucciones en la VM
+  vm.run(); // Ejecuta las instrucciones
+
+  rl.close(); // Cierra la interfaz
+});
