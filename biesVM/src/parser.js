@@ -1,25 +1,63 @@
-function parseToInstructions(input) {
-    const tokens = input.split(' '); // Divide el input por espacios
-    const instructions = [];
-  
-    tokens.forEach((token) => {
-      if (!isNaN(token)) {
-        instructions.push({ type: 'LDV', value: parseInt(token) }); // Si es un número, lo carga en la pila
-      } else if (token === '+') {
-        instructions.push({ type: 'ADD' }); // Traduce "+" a una suma
-      } else if (token === '-') {
-        instructions.push({ type: 'SUB' }); // Traduce "-" a una resta
-      } else if (token === '*') {
-        instructions.push({ type: 'MUL' }); // Traduce "*" a una multiplicación
-      } else if (token === '/') {
-        instructions.push({ type: 'DIV' }); // Traduce "/" a una división
+function parseToInstructions(code) {
+  const instructions = [];
+  const lines = code.split(';').map(line => line.trim()).filter(line => line);
+
+  // Diccionario de variables para almacenar los valores
+  const variables = {};
+
+  const evaluateValue = (value) => {
+    if (!isNaN(value)) {
+      return parseInt(value, 10); // valor literal
+    } else if (variables[value] !== undefined) {
+      return variables[value]; // valor de variable
+    } else {
+      throw new Error(`Variable no definida: ${value}`);
+    }
+  };
+
+  lines.forEach(line => {
+    // Manejar las instrucciones 'print'
+    if (line.startsWith('print(')) {
+      const value = line.match(/print\(([^)]+)\)/)[1].trim();
+      if (isNaN(value)) {
+        // Si es una variable
+        if (variables[value] !== undefined) {
+          instructions.push({ type: 'LDV', value: variables[value] });
+        } else {
+          throw new Error(`Variable no definida: ${value}`);
+        }
+      } else {
+        // Si es un valor literal
+        instructions.push({ type: 'LDV', value: parseInt(value, 10) });
       }
-    });
-  
-    instructions.push({ type: 'PRN' }); // Imprime el resultado
-    instructions.push({ type: 'HLT' }); // Detiene la ejecución
-    return instructions;
-  }
-  
-  module.exports = parseToInstructions;
-  
+      instructions.push({ type: 'PRN' }); // Instrucción para imprimir
+    }
+
+    // Manejar las declaraciones de variables
+    else if (line.startsWith('let')) {
+      const [_, varName, varValue] = line.match(/let\s+(\w+)\s*=\s*(.+)/);
+
+      // Evalúa el valor si es una expresión
+      const valueParts = varValue.split('+').map(part => part.trim());
+      variables[varName] = valueParts.reduce((acc, part) => acc + evaluateValue(part), 0);
+    }
+
+    // Manejar operaciones aritméticas
+    else if (line.includes('+')) {
+      const [left, right] = line.split('+').map(part => part.trim());
+
+      const leftValue = isNaN(left) ? evaluateValue(left) : parseInt(left, 10);
+      const rightValue = isNaN(right) ? evaluateValue(right) : parseInt(right, 10);
+
+      instructions.push({ type: 'LDV', value: leftValue });
+      instructions.push({ type: 'LDV', value: rightValue });
+      instructions.push({ type: 'ADD' }); // Instrucción para sumar
+      instructions.push({ type: 'PRN' }); // Imprimir el resultado
+    }
+  });
+
+  instructions.push({ type: 'HLT' }); // Agregar la instrucción de detener al final
+  return instructions;
+}
+
+module.exports = parseToInstructions;
