@@ -1,109 +1,95 @@
+const antlr4 = require('antlr4');
+const BiesVMLexer = require('./BiesVMLexer'); // Lexer generado por ANTLR
+const BiesVMParser = require('./BiesVMParser'); // Parser generado por ANTLR
+
 class BiesVM {
-  constructor() {
-    // Inicialización de la VM
-    this.stack = []; // Pila (S)
-    this.code = []; // Código a ejecutar (C)
-    this.env = []; // Entorno de bindings (B)
-    this.context = []; // Pila de contextos (D)
-    this.currentInstruction = 0; // Instrucción actual
-  }
-
-  // Cargar el programa en la VM
-  loadProgram(program) {
-    this.code = program;
-  }
-
-  // Ejecutar el programa
-  run() {
-    try {
-      while (this.currentInstruction < this.code.length) {
-        const instruction = this.code[this.currentInstruction];
-        this.executeInstruction(instruction);
-        this.currentInstruction++;
-      }
-    } catch (error) {
-      console.error('Error durante la ejecución:', error);
+    constructor() {
+        this.stack = [];
+        this.env = {}; // Entorno para variables
+        this.currentInstruction = 0;
     }
-  }
 
-  // Ejecutar una instrucción
-  executeInstruction(instruction) {
-    switch (instruction.type) {
-      case 'LDV': // Cargar valor en la pila
-        this.stack.push(instruction.value);
-        break;
-      case 'ADD': // Sumar valores
-        this.binaryOperation((a, b) => a + b);
-        break;
-      case 'SUB': // Restar valores
-        this.binaryOperation((a, b) => b - a);
-        break;
-      case 'MUL': // Multiplicar valores
-        this.binaryOperation((a, b) => a * b);
-        break;
-      case 'DIV': // Dividir valores
-        this.binaryOperation((a, b) => b / a);
-        break;
-      case 'PRN': // Imprimir el valor de la cima de la pila
-        const valueToPrint = this.stack.pop();
-        console.log(valueToPrint);
-        break;
-      case 'HLT': // Detener ejecución
-        this.halt();
-        break;
-      case 'POP': // Sacar valor de la pila
-        this.stack.pop();
-        break;
-      case 'SWP': // Intercambiar valores
-        this.swapTop();
-        break;
-      case 'BLD': // Implementar la instrucción BLD (Bind to Environment)
-        const value = this.env[instruction.environment]?.[instruction.key];
-        if (value !== undefined) {
-          this.stack.push(value); // Carga el valor en la pila si existe en el entorno
-        } else {
-          throw new Error(
-            `Valor no encontrado en el entorno: ${instruction.environment}, ${instruction.key}`,
-          );
+    // Cargar el programa en la VM utilizando el parser de ANTLR
+    loadProgram(input) {
+        const chars = new antlr4.InputStream(input); // Entrada de texto
+        const lexer = new BiesVMLexer.BiesVMLexer(chars); // Lexer
+        const tokens = new antlr4.CommonTokenStream(lexer); // Tokens
+        const parser = new BiesVMParser.BiesVMParser(tokens); // Parser
+        this.code = parser.program().instruction(); // Obtener las instrucciones
+    }
+
+    // Ejecutar el programa
+    run() {
+        while (this.currentInstruction < this.code.length) {
+            const instruction = this.code[this.currentInstruction];
+            this.executeInstruction(instruction);
+            this.currentInstruction++;
         }
-        break;
-      case 'BST': // Implementar la instrucción BST (Branch if True)
-        const condition = this.stack.pop();
-        if (condition) {
-          this.currentInstruction = instruction.destination - 1; // Salta a la instrucción si es verdadero
+    }
+
+    // Procesar una instrucción usando el árbol generado por ANTLR
+    executeInstruction(instruction) {
+        if (instruction.ldvInstruction()) {
+            const value = instruction.ldvInstruction().NUMBER().getText();
+            this.stack.push(parseInt(value, 10));
+        } else if (instruction.addInstruction()) {
+            this.binaryOperation((a, b) => a + b);
+        } else if (instruction.subInstruction()) {
+            this.binaryOperation((a, b) => b - a);
+        } else if (instruction.mulInstruction()) {
+            this.binaryOperation((a, b) => a * b);
+        } else if (instruction.divInstruction()) {
+            this.binaryOperation((a, b) => b / a);
+        } else if (instruction.prnInstruction()) {
+            const valueToPrint = this.stack.pop();
+            console.log(valueToPrint);
+        } else if (instruction.hltInstruction()) {
+            this.halt();
+        } else if (instruction.popInstruction()) {
+            this.stack.pop();
+        } else if (instruction.swpInstruction()) {
+            this.swapTop();
+        } else if (instruction.bldInstruction()) {
+            const env = instruction.bldInstruction().ID(0).getText();
+            const key = instruction.bldInstruction().ID(1).getText();
+            const value = this.env[env]?.[key];
+            if (value !== undefined) {
+                this.stack.push(value);
+            } else {
+                throw new Error(`Valor no encontrado en el entorno: ${env}, ${key}`);
+            }
+        } else if (instruction.bstInstruction()) {
+            const condition = this.stack.pop();
+            if (condition) {
+                this.currentInstruction = parseInt(instruction.bstInstruction().NUMBER().getText(), 10) - 1;
+            }
         }
-        break;
-      default:
-        throw new Error(`Instrucción no reconocida: ${instruction.type}`);
     }
-  }
 
-  // Operación binaria en la pila
-  binaryOperation(operation) {
-    if (this.stack.length < 2) {
-      throw new Error('No hay suficientes elementos en la pila.');
+    // Operaciones binarias como suma, resta, etc.
+    binaryOperation(operation) {
+        if (this.stack.length < 2) {
+            throw new Error('No hay suficientes elementos en la pila.');
+        }
+        const a = this.stack.pop();
+        const b = this.stack.pop();
+        this.stack.push(operation(a, b));
     }
-    const a = this.stack.pop();
-    const b = this.stack.pop();
-    this.stack.push(operation(a, b));
-  }
 
-  // Intercambiar los dos valores superiores de la pila
-  swapTop() {
-    if (this.stack.length < 2) {
-      throw new Error('No hay suficientes elementos para intercambiar.');
+    swapTop() {
+        if (this.stack.length < 2) {
+            throw new Error('No hay suficientes elementos para intercambiar.');
+        }
+        const top = this.stack.pop();
+        const subTop = this.stack.pop();
+        this.stack.push(top);
+        this.stack.push(subTop);
     }
-    const top = this.stack.pop();
-    const subTop = this.stack.pop();
-    this.stack.push(top);
-    this.stack.push(subTop);
-  }
 
-  // Detener la ejecución
-  halt() {
-    console.log('Ejecución terminada.');
-    this.currentInstruction = this.code.length; // Forzar salida
-  }
+    halt() {
+        console.log("Ejecución terminada.");
+        this.currentInstruction = this.code.length; // Detener la ejecución
+    }
 }
 
 module.exports = BiesVM;
