@@ -1,6 +1,6 @@
-const antlr4 = require('antlr4');
-const BiesVMLexer = require('./BiesVMLexer'); // Lexer generado por ANTLR
-const BiesVMParser = require('./BiesVMParser'); // Parser generado por ANTLR
+import antlr4 from 'antlr4';
+import  BiesVMLexer  from './BiesVMLexer.js';
+import  BiesVMParser  from './BiesVMParser.js';
 
 class BiesVM {
     constructor() {
@@ -92,4 +92,4 @@ class BiesVM {
     }
 }
 
-module.exports = BiesVM;
+export default BiesVM;

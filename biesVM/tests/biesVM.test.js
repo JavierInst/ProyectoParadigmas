@@ -1,5 +1,7 @@
 //test básico
-const BiesVM = require('./src/biesVM');
+import BiesVM from './src/biesVM.js';
+import { parseToInstructions } from './src/parser.js';
+
 
 const program = [
   { type: 'LDV', value: 5 }, // Carga 5 en la pila
