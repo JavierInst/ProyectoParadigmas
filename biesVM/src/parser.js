@@ -1,6 +1,7 @@
 import antlr4 from 'antlr4';
 import  BiesVMLexer  from './Grammar/BiesVMLexer.js';
 import  BiesVMParser  from './Grammar/BiesVMParser.js';
+import BiesVMVisitor from './Grammar/BiesVMVisitor.js';
 
 function parseToInstructions(input) {
     const chars = new antlr4.InputStream(input);
@@ -8,10 +9,19 @@ function parseToInstructions(input) {
     const tokens = new antlr4.CommonTokenStream(lexer);
     const parser = new BiesVMParser(tokens);
 
-    const tree = parser.program(); // Iniciar el parsing
+    // Log tokens for debugging
+    console.log('Tokens:', tokens.getTokens());
 
-    return convertTreeToInstructions(tree); // Función para convertir el árbol a instrucciones
+    const programContext = parser.program();
+
+    const instructions = [];
+    const visitor = new BiesVMVisitor();
+    visitor.visit(programContext, instructions);
+
+    return instructions;
 }
+
+
 
 function convertTreeToInstructions(tree) {
     const instructions = [];
