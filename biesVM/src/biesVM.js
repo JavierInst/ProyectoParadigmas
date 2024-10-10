@@ -30,8 +30,12 @@ class BiesVM {
     // Procesar una instrucción usando el árbol generado por ANTLR
     executeInstruction(instruction) {
         if (instruction.ldvInstruction()) {
-            const value = instruction.ldvInstruction().NUMBER().getText();
-            this.stack.push(parseInt(value, 10));
+            let value = instruction.ldvInstruction().NUMBER() || instruction.ldvInstruction().STRING();
+            if (!isNaN(value)) {
+                this.stack.push(parseFloat(value.getText())); // Si es un número, convertir a flotante
+            } else {
+                this.stack.push(value.getText().replace(/\"/g, '')); // Si es una cadena, eliminar comillas
+            }
         } else if (instruction.addInstruction()) {
             this.binaryOperation((a, b) => a + b);
         } else if (instruction.subInstruction()) {
@@ -63,9 +67,21 @@ class BiesVM {
             if (condition) {
                 this.currentInstruction = parseInt(instruction.bstInstruction().NUMBER().getText(), 10) - 1;
             }
+        } else if (instruction.stkInstruction()) { // Implementación de STK
+        const k = parseInt(instruction.stkInstruction().NUMBER().getText(), 10);
+        if (k < 0 || k >= this.stack.length) {
+            throw new Error(`Índice fuera de rango en STK: ${k}`);
+        }
+        this.stack.push(this.stack[k]); // Empuja el K-ésimo elemento en la cima de la pila
+        }else if (instruction.srkInstruction()) {  // Implementación de SRK
+            const k = parseInt(instruction.srkInstruction().NUMBER().getText(), 10);
+            if (k < 0 || k >= this.stack.length) {
+                throw new Error(`Índice fuera de rango en SRK: ${k}`);
+            }
+            const rest = this.stack.slice(k); // Tomar todos los elementos desde K
+            this.stack.push(...rest); // Apilar los elementos seleccionados
         }
     }
-
     // Operaciones binarias como suma, resta, etc.
     binaryOperation(operation) {
         if (this.stack.length < 2) {

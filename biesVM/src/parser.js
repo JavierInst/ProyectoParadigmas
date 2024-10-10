@@ -29,8 +29,15 @@ function convertTreeToInstructions(tree) {
     // Implementa la lógica para recorrer el árbol y generar instrucciones
     tree.instruction().forEach(instr => {
         if (instr.ldvInstruction()) {
-            const value = instr.ldvInstruction().INT().getText();
-            instructions.push({ type: 'LDV', value: parseInt(value) });
+            let value = instr.ldvInstruction().NUMBER() || instr.ldvInstruction().STRING();
+            value = value.getText();
+            // Verificar si es una cadena o un número
+            if (!isNaN(value)) {
+                value = parseFloat(value);
+            } else {
+                value = value.replace(/\"/g, ''); // Eliminar las comillas dobles de las cadenas
+            }
+            instructions.push({ type: 'LDV', value});
         } else if (instr.addInstruction()) {
             instructions.push({ type: 'ADD' });
         } else if (instr.subInstruction()) {
