@@ -1,8 +1,14 @@
 import antlr4 from 'antlr4';
-import  BiesVMLexer  from './Grammar/BiesVMLexer.js';
-import  BiesVMParser  from './Grammar/BiesVMParser.js';
+import BiesVMLexer from './Grammar/BiesVMLexer.js';
+import BiesVMParser from './Grammar/BiesVMParser.js';
 import BiesVMVisitor from './Grammar/BiesVMVisitor.js';
 
+/**
+ * Parsea el código ensamblador y lo convierte en instrucciones utilizando ANTLR.
+ * 
+ * @param {string} input - El código fuente del programa ensamblador.
+ * @returns {Array} Un array de instrucciones generadas por el visitor.
+ */
 function parseToInstructions(input) {
     const chars = new antlr4.InputStream(input);
     const lexer = new BiesVMLexer(chars);
@@ -21,8 +27,12 @@ function parseToInstructions(input) {
     return instructions;
 }
 
-
-
+/**
+ * Convierte un árbol de sintaxis (AST) en una lista de instrucciones.
+ * 
+ * @param {Object} tree - El árbol de sintaxis generado por ANTLR.
+ * @returns {Array} Un array de instrucciones en formato JSON.
+ */
 function convertTreeToInstructions(tree) {
     const instructions = [];
 
@@ -37,7 +47,7 @@ function convertTreeToInstructions(tree) {
             } else {
                 value = value.replace(/\"/g, ''); // Eliminar las comillas dobles de las cadenas
             }
-            instructions.push({ type: 'LDV', value});
+            instructions.push({ type: 'LDV', value });
         } else if (instr.addInstruction()) {
             instructions.push({ type: 'ADD' });
         } else if (instr.subInstruction()) {
@@ -64,4 +74,4 @@ function convertTreeToInstructions(tree) {
     return instructions;
 }
 
-export default  parseToInstructions;
+export default parseToInstructions;
