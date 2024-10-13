@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node index.js",
-    "doc": "jsdoc -c jsdoc.json"
+    "generate-docs": "jsdoc -c jsdoc.json"  
   },
   "keywords": [],
   "author": "",
