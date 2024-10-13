@@ -42,7 +42,7 @@ npm test
 
 El proyecto utiliza **JSDoc** para generar documentación automáticamente a partir de los comentarios en el código fuente.
 
-### Instalación de JSDoc
+### Instalación y ejecución de JSDoc
 
 Para instalar JSDoc como una dependencia de desarrollo, ejecuta el siguiente comando:
 
@@ -50,5 +50,15 @@ npm install --save-dev jsdoc
 
 Para generar la documentación se ejecuta el siguiente comando:
 
-npm run doc
+npm run generate-docs
+
+Para visualizar la documentación en el navegador
+
+Navegar a la carpeta donde se encuentra el Index con la documentación:
+
+cd docs
+
+Abrir en el navegador:
+
+start index.html
 
