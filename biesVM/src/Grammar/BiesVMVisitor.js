@@ -30,8 +30,68 @@ export default class BiesVMVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
-	// Visit a parse tree produced by BiesVMParser#prnStatement.
-	visitPrnStatement(ctx) {
+	// Visit a parse tree produced by BiesVMParser#prnInstruction.
+	visitPrnInstruction(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by BiesVMParser#hltInstruction.
+	visitHltInstruction(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by BiesVMParser#ldvInstruction.
+	visitLdvInstruction(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by BiesVMParser#addInstruction.
+	visitAddInstruction(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by BiesVMParser#subInstruction.
+	visitSubInstruction(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by BiesVMParser#mulInstruction.
+	visitMulInstruction(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by BiesVMParser#divInstruction.
+	visitDivInstruction(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by BiesVMParser#popInstruction.
+	visitPopInstruction(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by BiesVMParser#swpInstruction.
+	visitSwpInstruction(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by BiesVMParser#bldInstruction.
+	visitBldInstruction(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+	// Visit a parse tree produced by BiesVMParser#bstInstruction.
+	visitBstInstruction(ctx) {
 	  return this.visitChildren(ctx);
 	}
 
