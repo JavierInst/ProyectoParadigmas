@@ -1,10 +1,10 @@
 import antlr4 from 'antlr4';
-import BiesVMLexer from './Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
+import BiesVMLexer from '../src/Grammar/BiesVMLexer.js'; // Asegúrate de que la ruta sea correcta
 
-const input = `LDV "hola"  ; Cargar la hilera "hola"
-LDV 4       ; Largo esperado
-PRN
-HLT
+const input = `LDV "hola"  ; 
+LDV 4       ; 
+PRN;
+HLT;
 `;
 
 const chars = new antlr4.InputStream(input);

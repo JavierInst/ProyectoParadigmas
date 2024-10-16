@@ -1,5 +1,5 @@
 import antlr4 from 'antlr4';
-import BiesVMLexer from './Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
+import BiesVMLexer from '../src/Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
 
 const input = `LET a = 5;
 LET b = 10;

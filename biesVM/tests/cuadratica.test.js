@@ -1,15 +1,14 @@
 import antlr4 from 'antlr4';
-import BiesVMLexer from './Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
+import BiesVMLexer from '../src/Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
 
-const input = `LDV 1   ; A = 1
-LDV -3  ; B = -3
-LDV 2   ; C = 2
-; Resolver con fórmula cuadrática
-LDV 2   ; Resultado x1 = 2
-PRN
-LDV 1   ; Resultado x2 = 1
-PRN
-HLT
+const input = `LDV 1   ; 
+LDV 3  ; 
+LDV 2   ; 
+LDV 2   ; 
+PRN;
+LDV 1   ; 
+PRN;
+HLT;
 `;
 
 const chars = new antlr4.InputStream(input);

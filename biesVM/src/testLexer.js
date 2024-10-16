@@ -1,6 +1,10 @@
 import antlr4 from 'antlr4';
 import BiesVMLexer from './Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
 
+/**
+ * Código de entrada en formato de texto.
+ * @type {string}
+ */
 const input = `LET x = 10;
 LET y = 5;
 ADD;
@@ -14,8 +18,22 @@ IF (x > y) {
 HLT;
 `;
 
+/**
+ * Crea un flujo de entrada a partir del código de entrada.
+ * @type {antlr4.InputStream}
+ */
 const chars = new antlr4.InputStream(input);
+
+/**
+ * Inicializa el lexer con el flujo de entrada.
+ * @type {BiesVMLexer}
+ */
 const lexer = new BiesVMLexer(chars);
+
+/**
+ * Arreglo para almacenar los tokens generados por el lexer.
+ * @type {Array<antlr4.Token>}
+ */
 const tokens = [];
 
 let token;
@@ -23,9 +41,12 @@ do {
     token = lexer.nextToken();
     tokens.push(token);
 } while (token.type !== antlr4.Token.EOF);
-// console.log("Tokens:", tokens.map(t => { return { type: t.type, text: t.text, line: t.line, column: t.column };}));
 
-
+/**
+ * Convierte un arreglo de tokens en instrucciones.
+ * @param {Array<antlr4.Token>} tokens - El arreglo de tokens a convertir.
+ * @returns {Array<string>} Instrucciones generadas a partir de los tokens.
+ */
 function convertTokensToInstructions(tokens) {
     const instructions = [];
     let currentVariable = null;
@@ -72,5 +93,10 @@ function convertTokensToInstructions(tokens) {
     return instructions;
 }
 
+/**
+ * Convierte los tokens en instrucciones y las imprime en consola.
+ * @type {Array<string>}
+ */
 const instructions = convertTokensToInstructions(tokens);
 console.log(instructions);
+

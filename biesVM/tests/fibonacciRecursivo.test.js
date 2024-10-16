@@ -1,8 +1,8 @@
 import antlr4 from 'antlr4';
-import BiesVMLexer from './Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
+import BiesVMLexer from '../src/Grammar/BiesVMLexer.js'; // Asegúrate de que la ruta sea correcta
 
-const input = `LDV 6     ; Fibonacci de 6
-LDV 8     ; Resultado esperado Fib(6)
+const input = `LDV 6     ; 
+LDV 8     ; 
 PRN;
 HLT;
 `;

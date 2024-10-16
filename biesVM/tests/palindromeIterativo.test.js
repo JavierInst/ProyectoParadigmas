@@ -1,8 +1,8 @@
 import antlr4 from 'antlr4';
-import BiesVMLexer from './Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
+import BiesVMLexer from '../src/Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
 
-const input = `LDV "anilina"   ; Cargar la hilera
-LDV 1           ; Es palíndromo
+const input = `LDV "anilina"   ; 
+LDV 1           ; 
 PRN;
 HLT;
 `;

@@ -1,8 +1,8 @@
 import antlr4 from 'antlr4';
-import BiesVMLexer from './Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
+import BiesVMLexer from '../src/Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
 
-const input = `LDV "hola"   ; Cargar la hilera "hola"
-LDV "aloh"   ; Hilera invertida esperada
+const input = `LDV "hola"   ;
+LDV "aloh"   ; 
 PRN
 HLT
 `;
