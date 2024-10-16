@@ -1,10 +1,15 @@
 import antlr4 from 'antlr4';
 import BiesVMLexer from './Grammar/BiesVMLexer.js';  // Asegúrate de que la ruta sea correcta
 
-const input = `LET a = 5;
-LET b = 10;
-PRN MAX(a, b); 
-HLT;
+const input = `LDV 1   ; A = 1
+LDV -3  ; B = -3
+LDV 2   ; C = 2
+; Resolver con fórmula cuadrática
+LDV 2   ; Resultado x1 = 2
+PRN
+LDV 1   ; Resultado x2 = 1
+PRN
+HLT
 `;
 
 const chars = new antlr4.InputStream(input);
