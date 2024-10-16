@@ -1,8 +1,14 @@
 import antlr4 from 'antlr4';
-import  BiesVMLexer  from './Grammar/BiesVMLexer.js';
-import  BiesVMParser  from './Grammar/BiesVMParser.js';
+import BiesVMLexer from './Grammar/BiesVMLexer.js';
+import BiesVMParser from './Grammar/BiesVMParser.js';
 import BiesVMVisitor from './Grammar/BiesVMVisitor.js';
 
+/**
+ * Parsea el código ensamblador y lo convierte en instrucciones utilizando ANTLR.
+ * 
+ * @param {string} input - El código fuente del programa ensamblador.
+ * @returns {Array} Un array de instrucciones generadas por el visitor.
+ */
 function parseToInstructions(input) {
     console.log('Input:', input); // Log de entrada
     const chars = new antlr4.InputStream(input);
@@ -37,16 +43,27 @@ function parseToInstructions(input) {
     return instructions;
 }
 
-
-
+/**
+ * Convierte un árbol de sintaxis (AST) en una lista de instrucciones.
+ * 
+ * @param {Object} tree - El árbol de sintaxis generado por ANTLR.
+ * @returns {Array} Un array de instrucciones en formato JSON.
+ */
 function convertTreeToInstructions(tree) {
     const instructions = [];
 
     // Implementa la lógica para recorrer el árbol y generar instrucciones
     tree.instruction().forEach(instr => {
         if (instr.ldvInstruction()) {
-            const value = instr.ldvInstruction().INT().getText();
-            instructions.push({ type: 'LDV', value: parseInt(value) });
+            let value = instr.ldvInstruction().NUMBER() || instr.ldvInstruction().STRING();
+            value = value.getText();
+            // Verificar si es una cadena o un número
+            if (!isNaN(value)) {
+                value = parseFloat(value);
+            } else {
+                value = value.replace(/\"/g, ''); // Eliminar las comillas dobles de las cadenas
+            }
+            instructions.push({ type: 'LDV', value });
         } else if (instr.addInstruction()) {
             instructions.push({ type: 'ADD' });
         } else if (instr.subInstruction()) {
@@ -73,4 +90,4 @@ function convertTreeToInstructions(tree) {
     return instructions;
 }
 
-export default  parseToInstructions;
+export default parseToInstructions;

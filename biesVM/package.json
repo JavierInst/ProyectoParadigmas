@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "start": "node index.js"
+    "start": "node index.js",
+    "generate-docs": "jsdoc -c jsdoc.json"  
   },
   "keywords": [],
   "author": "",
@@ -25,3 +26,4 @@
     "biesvm": "file:"
   }
 }
+
