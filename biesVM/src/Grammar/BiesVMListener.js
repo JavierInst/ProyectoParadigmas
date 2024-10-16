@@ -23,15 +23,6 @@ export default class BiesVMListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by BiesVMParser#exprStatement.
-	enterExprStatement(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#exprStatement.
-	exitExprStatement(ctx) {
-	}
-
-
 	// Enter a parse tree produced by BiesVMParser#assignment.
 	enterAssignment(ctx) {
 	}
@@ -50,30 +41,12 @@ export default class BiesVMListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by BiesVMParser#whileStatement.
-	enterWhileStatement(ctx) {
+	// Enter a parse tree produced by BiesVMParser#prnStatement.
+	enterPrnStatement(ctx) {
 	}
 
-	// Exit a parse tree produced by BiesVMParser#whileStatement.
-	exitWhileStatement(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#forStatement.
-	enterForStatement(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#forStatement.
-	exitForStatement(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#functionDefinition.
-	enterFunctionDefinition(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#functionDefinition.
-	exitFunctionDefinition(ctx) {
+	// Exit a parse tree produced by BiesVMParser#prnStatement.
+	exitPrnStatement(ctx) {
 	}
 
 
@@ -86,102 +59,12 @@ export default class BiesVMListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by BiesVMParser#FunctionCallExpr.
-	enterFunctionCallExpr(ctx) {
+	// Enter a parse tree produced by BiesVMParser#expression.
+	enterExpression(ctx) {
 	}
 
-	// Exit a parse tree produced by BiesVMParser#FunctionCallExpr.
-	exitFunctionCallExpr(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#AdditionExpr.
-	enterAdditionExpr(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#AdditionExpr.
-	exitAdditionExpr(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#SubtractionExpr.
-	enterSubtractionExpr(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#SubtractionExpr.
-	exitSubtractionExpr(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#NumberExpr.
-	enterNumberExpr(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#NumberExpr.
-	exitNumberExpr(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#DivisionExpr.
-	enterDivisionExpr(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#DivisionExpr.
-	exitDivisionExpr(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#IdentifierExpr.
-	enterIdentifierExpr(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#IdentifierExpr.
-	exitIdentifierExpr(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#ParenthesesExpr.
-	enterParenthesesExpr(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#ParenthesesExpr.
-	exitParenthesesExpr(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#MultiplicationExpr.
-	enterMultiplicationExpr(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#MultiplicationExpr.
-	exitMultiplicationExpr(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#functionCall.
-	enterFunctionCall(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#functionCall.
-	exitFunctionCall(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#prnInstruction.
-	enterPrnInstruction(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#prnInstruction.
-	exitPrnInstruction(ctx) {
-	}
-
-
-	// Enter a parse tree produced by BiesVMParser#hltInstruction.
-	enterHltInstruction(ctx) {
-	}
-
-	// Exit a parse tree produced by BiesVMParser#hltInstruction.
-	exitHltInstruction(ctx) {
+	// Exit a parse tree produced by BiesVMParser#expression.
+	exitExpression(ctx) {
 	}
 
 

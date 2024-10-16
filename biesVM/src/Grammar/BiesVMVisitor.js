@@ -18,12 +18,6 @@ export default class BiesVMVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
-	// Visit a parse tree produced by BiesVMParser#exprStatement.
-	visitExprStatement(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
 	// Visit a parse tree produced by BiesVMParser#assignment.
 	visitAssignment(ctx) {
 	  return this.visitChildren(ctx);
@@ -36,20 +30,8 @@ export default class BiesVMVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
-	// Visit a parse tree produced by BiesVMParser#whileStatement.
-	visitWhileStatement(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#forStatement.
-	visitForStatement(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#functionDefinition.
-	visitFunctionDefinition(ctx) {
+	// Visit a parse tree produced by BiesVMParser#prnStatement.
+	visitPrnStatement(ctx) {
 	  return this.visitChildren(ctx);
 	}
 
@@ -60,68 +42,8 @@ export default class BiesVMVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
-	// Visit a parse tree produced by BiesVMParser#FunctionCallExpr.
-	visitFunctionCallExpr(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#AdditionExpr.
-	visitAdditionExpr(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#SubtractionExpr.
-	visitSubtractionExpr(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#NumberExpr.
-	visitNumberExpr(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#DivisionExpr.
-	visitDivisionExpr(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#IdentifierExpr.
-	visitIdentifierExpr(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#ParenthesesExpr.
-	visitParenthesesExpr(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#MultiplicationExpr.
-	visitMultiplicationExpr(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#functionCall.
-	visitFunctionCall(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#prnInstruction.
-	visitPrnInstruction(ctx) {
-	  return this.visitChildren(ctx);
-	}
-
-
-	// Visit a parse tree produced by BiesVMParser#hltInstruction.
-	visitHltInstruction(ctx) {
+	// Visit a parse tree produced by BiesVMParser#expression.
+	visitExpression(ctx) {
 	  return this.visitChildren(ctx);
 	}
 

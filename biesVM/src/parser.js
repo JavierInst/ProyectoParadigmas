@@ -4,13 +4,29 @@ import  BiesVMParser  from './Grammar/BiesVMParser.js';
 import BiesVMVisitor from './Grammar/BiesVMVisitor.js';
 
 function parseToInstructions(input) {
+    console.log('Input:', input); // Log de entrada
     const chars = new antlr4.InputStream(input);
+    console.log('Lexer Input:', chars.toString());
     const lexer = new BiesVMLexer(chars);
     const tokens = new antlr4.CommonTokenStream(lexer);
     const parser = new BiesVMParser(tokens);
 
-    // Log tokens for debugging
-    console.log('Tokens:', tokens.getTokens());
+    // Log tokens para debugging
+    const tokenList = tokens.getTokens();
+    console.log('Tokens:', tokenList.map(token => ({
+        type: token.type,
+        text: token.text,
+        line: token.line,
+        column: token.column
+    })));
+
+    // Captura errores de análisis
+    parser.removeErrorListeners(); // Remove default console error output
+    parser.addErrorListener({
+        syntaxError: function (recognizer, offendingSymbol, line, column, msg, err) {
+            console.error(`Error de sintaxis en línea ${line}, columna ${column}: ${msg}`);
+        }
+    });
 
     const programContext = parser.program();
 
